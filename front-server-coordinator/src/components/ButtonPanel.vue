@@ -1,19 +1,18 @@
 <template>
-    <v-container class="pa-4">
-        <h2>Berkeley's Algorithm</h2>
-        <v-row align="center" justify="center">
-            <v-col cols="auto"> 
-                <v-btn class="my-btn" @click="newClient">
+    <div class="panel">
+        <div class="row" style="justify-content: center; align-items: center;">
+            <div class="col-auto">
+                <button class="my-btn" @click="newClient">
                     Add Client Node
-                </v-btn>
-            </v-col>
-            <v-col cols="auto"> <!-- Mismo enfoque para el segundo botón -->
-                <v-btn class="my-btn" @click="runBerkeleyAlgorithm">
+                </button>
+            </div>
+            <div class="col-auto">
+                <button class="my-btn" @click="runBerkeleyAlgorithm">
                     Start Synchronization
-                </v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -22,41 +21,47 @@ export default {
     methods: {
         newClient() {
             console.log("New client created");
-            // Aquí es donde agregarías la lógica para crear un nuevo cliente
+            // Lógica para crear un nuevo cliente
         },
         runBerkeleyAlgorithm() {
             console.log("Berkeley Algorithm running");
-            // Aquí es donde agregarías la lógica para ejecutar el algoritmo de Berkeley
+            // Lógica para ejecutar el algoritmo de Berkeley
         },
     },
 };
 </script>
 
 <style scoped>
-h2 {
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 3%;
+.panel {
+    padding: 1px;
+    width: 90%;
+    height: auto;
+    margin: 2%;
+    margin-left: 50px;
 }
 
-.pa-4 {
-    width: 415px;
-    height: 100px;
+.row {
+    display: flex;
+}
+
+.col-auto {
+    margin-right: 10px;
+    /* Ajusta según tu diseño */
 }
 
 .my-btn {
     background-color: #1c1d74;
     color: white;
-    margin-left: 10px;
     text-transform: none;
     font-size: 16px;
     padding: 10px 20px;
     border-radius: 6px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 .my-btn:hover {
-    background-color: #d2dcfc;
+    background-color: #eef2fd;
     color: #1c1d74;
     font-weight: bold;
 }
