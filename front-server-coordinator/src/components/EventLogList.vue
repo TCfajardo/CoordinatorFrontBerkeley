@@ -85,7 +85,7 @@ export default {
 .event-log-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9em; /* Tamaño de la fuente reducido para la tabla */
+    font-size: 0.9em;
 }
 
 .event-log-table th,
@@ -102,7 +102,7 @@ export default {
 
 .event-log-table tbody tr:hover {
     background-color: #eef2fd;
-    color: #1c1d74;
+    color: #0d0e51;
 }
 
 .event-log-container::-webkit-scrollbar {

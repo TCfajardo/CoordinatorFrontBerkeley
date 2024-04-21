@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- Header with Time Display, Title, and Button Panel -->
     <div class="header">
       <div class="left-section"> 
         <TimeDisplay />
@@ -11,7 +10,6 @@
       </div>
     </div>
 
-    <!-- Main Section with Server List and Event Log List -->
     <div class="main">
       <ServerList class="component-separator" />
       <EventLogList />
@@ -38,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos para la cabecera */
+
 .header {
   display: flex; 
   justify-content: space-between;
