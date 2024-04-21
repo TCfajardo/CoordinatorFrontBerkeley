@@ -67,10 +67,10 @@ h2 {
 .main {
   padding: 10px;
   margin: 10%;
-  margin-top: 0%;
+  margin-top: -1%;
 }
 
 .component-separator {
-  margin-bottom: 35px; 
+  margin-bottom: 30px; 
 }
 </style>
