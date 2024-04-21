@@ -11,10 +11,12 @@
       </div>
     </div>
 
-    <!-- Main Section with Server List -->
+    <!-- Main Section with Server List and Event Log List -->
     <div class="main">
-      <ServerList />
+      <ServerList class="component-separator" />
+      <EventLogList />
     </div>
+    
   </div>
 </template>
 
@@ -22,6 +24,7 @@
 import ButtonPanel from './components/ButtonPanel.vue';
 import TimeDisplay from './components/Clock.vue';
 import ServerList from './components/ServerList.vue';
+import EventLogList from './components/EventLogList.vue';
 
 export default {
   name: 'App',
@@ -29,6 +32,7 @@ export default {
     ButtonPanel,
     TimeDisplay,
     ServerList,
+    EventLogList,
   },
 };
 </script>
@@ -66,5 +70,9 @@ h2 {
   padding: 10px;
   margin: 10%;
   margin-top: 0%;
+}
+
+.component-separator {
+  margin-bottom: 35px; 
 }
 </style>
