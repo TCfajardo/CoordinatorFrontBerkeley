@@ -21,7 +21,6 @@
                     </div>
                 </div>
                 <div class="server-cell">
-                    <!-- Solo mostrar el enlace si el nodo está activo -->
                     <a v-if="server.isActive" :href="server.url" target="_blank" rel="noopener noreferrer">View Logs</a>
                 </div>
             </div>
@@ -38,7 +37,7 @@ export default {
         return {
             servers: [],
             socket: null,
-            isConnected: true, // Estado de la conexión al WebSocket
+            isConnected: true, 
         };
     },
     methods: {
@@ -54,7 +53,7 @@ export default {
         getPort(ip) {
             try {
                 const url = new URL(ip);
-                return url.port;  // Extraer el puerto de la URL
+                return url.port; 
             } catch (e) {
                 console.error(`Error extracting port from ${ip}:`, e);
                 return 'Unknown';
@@ -63,7 +62,7 @@ export default {
         getHost(ip) {
             try {
                 const url = new URL(ip);
-                return url.hostname;  // Extraer solo el host de la URL
+                return url.hostname; 
             } catch (e) {
                 console.error(`Error extracting host from ${ip}:`, e);
                 return 'Unknown';
@@ -75,11 +74,10 @@ export default {
 
         this.socket.on('connect', () => {
             console.log('Connected to coordinator server');
-            this.isConnected = true; // Actualizar el estado de conexión
+            this.isConnected = true; 
         });
 
         this.socket.on('node_status', (nodeStatus) => {
-            console.log('Recibido estado del nodo:', nodeStatus);
 
             const existingServer = this.servers.find((server) => server.ip === nodeStatus.ip);
 
@@ -89,15 +87,15 @@ export default {
                 this.servers.push({
                     ip: nodeStatus.ip,
                     isActive: nodeStatus.isActive,
-                    url: nodeStatus.ip,  // URL completa para el enlace "View Logs"
+                    url: nodeStatus.ip, 
                 });
             }
         });
 
         this.socket.on('disconnect', () => {
             console.log('Disconnected from coordinator server');
-            this.isConnected = false; // Cambiar el estado de conexión
-            this.servers = [];  // Limpiar la lista de nodos
+            this.isConnected = false;
+            this.servers = []; 
         });
     },
 };

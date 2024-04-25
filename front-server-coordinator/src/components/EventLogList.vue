@@ -21,37 +21,14 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
+
 export default {
     name: 'EventLogList',
     data() {
         return {
-            events: [
-                {
-                    id: 1,
-                    timestamp: new Date(2024, 3, 18, 14, 30),
-                    description: 'Client Node 1 synchronized with the server.',
-                },
-                {
-                    id: 2,
-                    timestamp: new Date(2024, 3, 18, 14, 35),
-                    description: 'Client Node 2 failed to synchronize.',
-                },
-                {
-                    id: 3,
-                    timestamp: new Date(2024, 3, 18, 14, 40),
-                    description: 'Client Node 3 synchronized with the server.',
-                },
-                {
-                    id: 4,
-                    timestamp: new Date(2024, 4, 18, 1, 35),
-                    description: 'Client Node 2 failed to synchronize.',
-                },
-                {
-                    id: 5,
-                    timestamp: new Date(2024, 4, 19, 14, 40),
-                    description: 'Client Node 3 synchronized with the server.',
-                },
-            ],
+            socket: null,
+            events: [],
         };
     },
     methods: {
@@ -64,8 +41,38 @@ export default {
             return new Intl.DateTimeFormat('en-US', options).format(timestamp);
         },
     },
+    mounted() {
+        this.socket = io('http://localhost:3000');
+
+        this.socket.on('connect', () => {
+            console.log('Connected to coordinator server');
+
+            // Solicita unirte a la sala 'vue-clients'
+            this.socket.emit('join_vue_clients');
+        });
+
+        this.socket.on('disconnect', () => {
+            console.log('Disconnected from coordinator server');
+            const event = {
+                id: this.events.length + 1,
+                timestamp: new Date(),
+                description: "Deconnected",
+            };
+            this.events.unshift(event);
+        });
+
+        this.socket.on('system_log', (message) => {
+            const event = {
+                id: this.events.length + 1,
+                timestamp: new Date(),
+                description: message,
+            };
+            this.events.unshift(event);
+        });
+    },
 };
 </script>
+
 
 <style scoped>
 .event-log-list {
@@ -111,10 +118,14 @@ export default {
 
 .event-log-container::-webkit-scrollbar-thumb {
     background-color: #eef2fd;
-    border-radius: 8px; 
+    border-radius: 8px;
 }
 
-event-log-container::-webkit-scrollbar-track {
-    background: #1c1d74; 
+.event-log-container::-webkit-scrollbar-track {
+    background: #1c1d74;
+}
+
+td {
+    font-size: 12px;
 }
 </style>
