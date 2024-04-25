@@ -12,7 +12,10 @@
 
     <div class="main">
       <ServerList class="component-separator" />
-      <EventLogList />
+      <div class="logs">
+        <EventLogList />
+        <AlgoritmLogList/>
+      </div>
     </div>
     
   </div>
@@ -23,6 +26,7 @@ import ButtonPanel from './components/ButtonPanel.vue';
 import TimeDisplay from './components/Clock.vue';
 import ServerList from './components/ServerList.vue';
 import EventLogList from './components/EventLogList.vue';
+import AlgoritmLogList from './components/AlgoritmLogList.vue';
 
 export default {
   name: 'App',
@@ -31,6 +35,7 @@ export default {
     TimeDisplay,
     ServerList,
     EventLogList,
+    AlgoritmLogList,
   },
 };
 </script>
@@ -72,5 +77,11 @@ h2 {
 
 .component-separator {
   margin-bottom: 30px; 
+}
+
+.logs {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px; 
 }
 </style>
