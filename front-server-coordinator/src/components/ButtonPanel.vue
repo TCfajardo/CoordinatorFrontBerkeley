@@ -16,16 +16,33 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: 'ButtonPanel',
     methods: {
-        newClient() {
+        async newClient() { // Marcar la función como async
             console.log("New client created");
             // Lógica para crear un nuevo cliente
+            try {
+                const response = await axios.get('http://localhost:3000/run-script');
+                console.log(response.data);
+                // Aquí puedes manejar la respuesta del servidor si es necesario
+            } catch (error) {
+                console.error('Error al ejecutar el script:', error.message);
+                // Aquí puedes manejar el error si es necesario
+            }
         },
-        runBerkeleyAlgorithm() {
+        async runBerkeleyAlgorithm() { // Marcar la función como async
             console.log("Berkeley Algorithm running");
-            // Lógica para ejecutar el algoritmo de Berkeley
+            try {
+                // Realizar la solicitud al endpoint /run-script
+                const response = await axios.post('http://localhost:3000/start-berkeley');
+                console.log(response.data);
+                // Manejar la respuesta del servidor si es necesario
+            } catch (error) {
+                console.error('Error al iniciar el algoritmo de Berkeley:', error.message);
+                // Manejar el error si ocurre algún problema con la solicitud
+            }
         },
     },
 };
