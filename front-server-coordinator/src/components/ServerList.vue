@@ -1,9 +1,8 @@
 <template>
     <div class="server-status">
         <h3>Client Nodes Status</h3>
-        <!-- Mensaje de advertencia que aparece cuando se pierde la conexión al WebSocket -->
         <h5 v-if="!isConnected" class="warning">Connection to WebSocket lost</h5>
-        
+
         <div class="server-table">
             <div class="server-row server-header">
                 <div class="server-cell">Node (Port)</div>
@@ -17,11 +16,11 @@
                 <div class="server-cell">{{ getHost(server.ip) }}</div>
                 <div class="server-cell">
                     <div :style="getStatusStyle(server.isActive)" class="status-indicator"
-                        :aria-label="server.isActive ? 'Active' : 'Inactive'" role="status">
-                    </div>
+                        :aria-label="server.isActive ? 'Active' : 'Inactive'" role="status"></div>
                 </div>
                 <div class="server-cell">
-                    <a v-if="server.isActive" :href="server.url" target="_blank" rel="noopener noreferrer">View Logs</a>
+                    <a v-if="server.isActive" :href="getLogUrl(server)" target="_blank" rel="noopener noreferrer">View
+                        Logs</a>
                 </div>
             </div>
         </div>
@@ -37,7 +36,7 @@ export default {
         return {
             servers: [],
             socket: null,
-            isConnected: true, 
+            isConnected: true,
         };
     },
     methods: {
@@ -53,7 +52,7 @@ export default {
         getPort(ip) {
             try {
                 const url = new URL(ip);
-                return url.port; 
+                return url.port;
             } catch (e) {
                 console.error(`Error extracting port from ${ip}:`, e);
                 return 'Unknown';
@@ -62,11 +61,38 @@ export default {
         getHost(ip) {
             try {
                 const url = new URL(ip);
-                return url.hostname; 
+                return url.hostname;
             } catch (e) {
                 console.error(`Error extracting host from ${ip}:`, e);
                 return 'Unknown';
             }
+        },
+        getLogUrl(server) {
+            const port = this.getPort(server.ip);
+            // Mapear el puerto de origen al puerto de destino
+            let mappedPort = port;
+
+            // Puedes cambiar el mapeo según tus necesidades
+            switch (port) {
+                case '5001':
+                    mappedPort = '8081';
+                    break;
+                case '5002':
+                    mappedPort = '8082';
+                    break;
+                case '5003':
+                    mappedPort = '8083';
+                    break;
+                case '5004':
+                    mappedPort = '8084';
+                    break;
+                default:
+                    mappedPort = port;
+                    break;
+            }
+
+            // Construir la URL con el puerto mapeado
+            return `http://localhost:${mappedPort}`;
         },
     },
     mounted() {
@@ -74,11 +100,10 @@ export default {
 
         this.socket.on('connect', () => {
             console.log('Connected to coordinator server');
-            this.isConnected = true; 
+            this.isConnected = true;
         });
 
         this.socket.on('node_status', (nodeStatus) => {
-
             const existingServer = this.servers.find((server) => server.ip === nodeStatus.ip);
 
             if (existingServer) {
@@ -87,7 +112,7 @@ export default {
                 this.servers.push({
                     ip: nodeStatus.ip,
                     isActive: nodeStatus.isActive,
-                    url: nodeStatus.ip, 
+                    url: nodeStatus.ip,
                 });
             }
         });
@@ -95,18 +120,14 @@ export default {
         this.socket.on('disconnect', () => {
             console.log('Disconnected from coordinator server');
             this.isConnected = false;
-            this.servers = []; 
+            this.servers = [];
         });
     },
 };
 </script>
 
-
 <style scoped>
-
-h5{
-    color: #974a13;
-}
+/* Estilos del componente */
 .server-status {
     border: 2px solid rgb(241, 242, 248);
     padding: 20px;
